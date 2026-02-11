@@ -1,5 +1,6 @@
 package taskmanager.entity;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -13,7 +14,15 @@ public class Task {
 
     private String title;
     private String description;
+
     private LocalDate dueDate;
+
+    @Enumerated(EnumType.STRING)
+    private TaskStatus status; // NEW, IN_PROGRESS, DONE
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Task(String title, String desc, LocalDate dueDate) {
         this.title = title;
@@ -47,9 +56,6 @@ public class Task {
         return dueDate;
     }
 
-    @Enumerated(EnumType.STRING)
-    private TaskStatus status; // NEW, IN_PROGRESS, DONE
-
     public void setStatus(TaskStatus newStatus) {
         status = newStatus;
     }
@@ -57,10 +63,6 @@ public class Task {
     public TaskStatus getStatus() {
         return status;
     }
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 
     public User getUser() {
         return user;

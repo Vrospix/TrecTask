@@ -1,11 +1,12 @@
 package taskmanager.repositories;
 
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import taskmanager.entity.Task;
 
-import java.util.List;
-
 public interface TaskRepository extends JpaRepository<Task, Long> {
 
-    List<Task> findByUserId(Long UserId);
+    Page<Task> findByUserId(Long UserId, Pageable pageable);
 }

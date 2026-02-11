@@ -1,6 +1,7 @@
 package taskmanager.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import taskmanager.entity.Task;
 import taskmanager.repositories.TaskRepository;
@@ -20,8 +21,8 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
-    public List<Task> getTasksByUser(Long userId) {
-        return taskRepository.findByUserId(userId);
+    public Page<Task> getTasksByUser(Long userId, Pageable pageable) {
+        return taskRepository.findByUserId(userId, pageable);
     }
 
     public Optional<Task> getTask(Long id) {
@@ -34,5 +35,9 @@ public class TaskService {
 
     public void deleteTask(Long id) {
         taskRepository.deleteById(id);
+    }
+
+    public List<Task> getAllTasks() {
+        return taskRepository.findAll();
     }
 }

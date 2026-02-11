@@ -1,11 +1,13 @@
 package taskmanager.controllers;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.*;
+import taskmanager.dto.UserRequest;
+import taskmanager.dto.UserResponse;
 import taskmanager.entity.User;
 import taskmanager.services.UserService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -17,7 +19,12 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public User register(@RequestBody User user) {
-        return userService.register(user);
+    public UserResponse register(@Valid @RequestBody UserRequest request) {
+        return userService.register(request);
+    }
+
+    @GetMapping
+    public List<User> getAllUsers() {
+        return userService.getAllUsers();
     }
 }
