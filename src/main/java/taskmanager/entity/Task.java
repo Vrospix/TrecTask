@@ -1,6 +1,5 @@
 package taskmanager.entity;
 
-import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -54,6 +53,10 @@ public class Task {
 
     public LocalDate getDueDate() {
         return dueDate;
+    }
+
+    public void setDueDate(LocalDate newDueDate) {
+        dueDate = newDueDate;
     }
 
     public void setStatus(TaskStatus newStatus) {

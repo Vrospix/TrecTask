@@ -20,25 +20,15 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public UserResponse register(UserRequest request) {
+    public User register(UserRequest request) {
         User user = new User(
                 request.getUsername(),
                 request.getEmail(),
                 passwordEncoder.encode(request.getPassword())
         );
+        userRepository.save(user);
 
-
-        User saved = userRepository.save(user);
-
-        return new UserResponse(
-                saved.getId(),
-                saved.getUsername(),
-                saved.getEmail()
-        );
-    }
-
-    public Optional<User> findByUsername(String username) {
-        return userRepository.findByUsername(username);
+        return user;
     }
 
     public Optional<User> findByUserId(Long userId) {

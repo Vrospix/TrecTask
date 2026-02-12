@@ -18,19 +18,27 @@ public class TaskService {
     }
 
     public Task createTask(Task task) {
-        return taskRepository.save(task);
+        taskRepository.save(task);
+
+        return task;
     }
 
     public Page<Task> getTasksByUser(Long userId, Pageable pageable) {
-        return taskRepository.findByUserId(userId, pageable);
+        Page<Task> taskPage = taskRepository.findByUserId(userId, pageable);
+
+        return taskPage;
     }
 
     public Optional<Task> getTask(Long id) {
-        return taskRepository.findById(id);
+        Optional<Task> task = taskRepository.findById(id);
+
+        return task;
     }
 
     public Task updateTask(Task task) {
-        return taskRepository.save(task);
+        taskRepository.save(task);
+
+        return task;
     }
 
     public void deleteTask(Long id) {
