@@ -2,6 +2,7 @@ package taskmanager.controllers;
 
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
+import taskmanager.dto.LoginRequest;
 import taskmanager.dto.UserRequest;
 import taskmanager.dto.UserResponse;
 import taskmanager.entity.User;
@@ -47,19 +48,23 @@ public class UserController {
                  .orElseThrow(() -> new ResourceNotFoundException("User not found with userId " + userId));
     }
 
-    @PutMapping("/{id}")
-    public UserResponse updateTask(@PathVariable Long userId, @RequestBody UserRequest userDetails) {
+    @PutMapping("/{userId}")
+    public UserResponse updateUser(@PathVariable Long userId, @RequestBody UserRequest userDetails) {
         User user =  userService.findByUserId(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with userId " + userId));
 
         user.setUsername(userDetails.getUsername());
-        user.setEmail(user.getEmail());
-
+        user.setEmail(userDetails.getEmail());
         return mapToResponse(userService.updateUser(user));
     }
 
     @DeleteMapping("/{userId}")
-    public void deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
+    public void deleteUser(@PathVariable Long userId) {
+        userService.deleteUser(userId);
+    }
+
+    @PostMapping("/login")
+    public UserResponse login(@Valid @RequestBody LoginRequest request) {
+        return mapToResponse(userService.login(request));
     }
 }

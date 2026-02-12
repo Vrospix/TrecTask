@@ -64,4 +64,8 @@ public class User {
             username = newUsername;
         }
     }
+
+    public String getPassword() {
+        return password;
+    }
 }
