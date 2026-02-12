@@ -46,4 +46,20 @@ public class UserController {
                  .map(s -> mapToResponse(s))
                  .orElseThrow(() -> new ResourceNotFoundException("User not found with userId " + userId));
     }
+
+    @PutMapping("/{id}")
+    public UserResponse updateTask(@PathVariable Long userId, @RequestBody UserRequest userDetails) {
+        User user =  userService.findByUserId(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with userId " + userId));
+
+        user.setUsername(userDetails.getUsername());
+        user.setEmail(user.getEmail());
+
+        return mapToResponse(userService.updateUser(user));
+    }
+
+    @DeleteMapping("/{userId}")
+    public void deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
+    }
 }

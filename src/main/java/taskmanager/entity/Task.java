@@ -1,6 +1,7 @@
 package taskmanager.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDate;
 
@@ -11,11 +12,14 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     private String title;
+
     private String description;
 
     private LocalDate dueDate;
 
+    @NotBlank
     @Enumerated(EnumType.STRING)
     private TaskStatus status; // NEW, IN_PROGRESS, DONE
 
@@ -40,7 +44,9 @@ public class Task {
     }
 
     public void setDescription(String newDesc) {
-        description = newDesc;
+        if (newDesc != null) {
+            description = newDesc;
+        }
     }
 
     public String getDescription() {
@@ -56,7 +62,9 @@ public class Task {
     }
 
     public void setDueDate(LocalDate newDueDate) {
-        dueDate = newDueDate;
+        if (newDueDate != null){
+            dueDate = newDueDate;
+        }
     }
 
     public void setStatus(TaskStatus newStatus) {
@@ -72,6 +80,8 @@ public class Task {
     }
 
     public void setUser(User newUser) {
-        user = newUser;
+        if (newUser != null) {
+            user = newUser;
+        }
     }
 }

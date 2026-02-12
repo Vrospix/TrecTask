@@ -3,7 +3,6 @@ package taskmanager.services;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import taskmanager.dto.UserRequest;
-import taskmanager.dto.UserResponse;
 import taskmanager.repositories.UserRepository;
 import taskmanager.entity.User;
 
@@ -33,6 +32,16 @@ public class UserService {
 
     public Optional<User> findByUserId(Long userId) {
         return userRepository.findById(userId);
+    }
+
+    public User updateUser(User user) {
+        userRepository.save(user);
+
+        return user;
+    }
+
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
     }
 
     public List<User> getAllUsers() {

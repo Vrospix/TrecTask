@@ -49,7 +49,19 @@ public class User {
         return email;
     }
 
+    public void setEmail(String newEmail) {
+        if (newEmail != null || !newEmail.isBlank()) {
+            email = newEmail;
+        }
+    }
+
     public String getUsername() {
         return username;
+    }
+
+    public void setUsername(String newUsername) {
+        if (newUsername != null || !newUsername.isBlank()) {
+            username = newUsername;
+        }
     }
 }
