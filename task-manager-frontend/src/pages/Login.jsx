@@ -6,13 +6,14 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
+      setLoading(true);
       const response = await API.post("/users/login", {
         email,
         password,
@@ -21,7 +22,10 @@ function Login() {
       // Save user in localStorage
       localStorage.setItem("user", JSON.stringify(response.data));
 
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
       navigate("/dashboard");
+      setLoading(false);
     } catch (err) {
       setError("Invalid email or password");
     }
@@ -32,7 +36,7 @@ function Login() {
       <h2>Login</h2>
 
       {error && <p style={{ color: "red" }}>{error}</p>}
-
+      {loading && <p>loading your account...</p>}
       <form onSubmit={handleLogin}>
         <div>
           <input

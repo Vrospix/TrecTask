@@ -14,10 +14,13 @@ function Dashboard() {
 
     const fetchTasks = async () => {
         try {
-          const res = await API.get(`/tasks/users/${user.id}`);
-          setTasks(res.data.content);
+            const res = await API.get(`/tasks/users/${user.id}`);
+
+            setTasks(res.data.content);
         } catch (err) {
-          console.error(err);
+            console.error(err);
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -89,24 +92,36 @@ function Dashboard() {
              <hr />
 
              <h3>Your Tasks</h3>
-             <ul>
+             <ul style={{ listStyle: "none", padding: 0 }}>
                  {tasks.map((task) => (
-                     <li key={task.id}>
-                       {task.title}
-
-                       <span
-                         onClick={() => handleToggleStatus(task.id)}
-                         style={{ cursor: "pointer", marginLeft: "10px" }}
-                       >
-                         {task.status === "DONE" ? "✅" : "⬜"}
+                     <li key={task.id}
+                         style={{
+                                 display: "flex",
+                                 justifyContent: "space-between",
+                                 alignItems: "center",
+                                 padding: "8px",
+                                 borderBottom: "1px solid #ddd"
+                               }}
+                     >
+                       <span>
+                           {task.title}
                        </span>
 
-                       <button
-                           onClick={() => handleDeleteTask(task.id)}
-                           style={{ marginLeft: "10px" }}
-                       >
-                           Delete
-                       </button>
+                       <div>
+                           <span
+                             onClick={() => handleToggleStatus(task.id)}
+                             style={{ cursor: "pointer", marginLeft: "10px" }}
+                           >
+                             {task.status === "DONE" ? "✅" : "⬜"}
+                           </span>
+
+                           <button
+                               onClick={() => handleDeleteTask(task.id)}
+                               style={{ marginLeft: "10px" }}
+                           >
+                               Delete
+                           </button>
+                       </div>
                      </li>
 
                  ))}
