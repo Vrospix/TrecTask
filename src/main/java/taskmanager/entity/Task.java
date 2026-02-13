@@ -1,5 +1,7 @@
 package taskmanager.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
@@ -19,7 +21,6 @@ public class Task {
 
     private LocalDate dueDate;
 
-    @NotBlank
     @Enumerated(EnumType.STRING)
     private TaskStatus status; // NEW, IN_PROGRESS, DONE
 
@@ -31,9 +32,12 @@ public class Task {
         this.title = title;
         this.description = desc;
         this.dueDate = dueDate;
+        this.status = TaskStatus.NEW;
     }
 
-    protected Task() {}
+    public Task() {
+        this.status = TaskStatus.NEW;
+    }
 
     public void setTitle(String newTitle) {
         title = newTitle;

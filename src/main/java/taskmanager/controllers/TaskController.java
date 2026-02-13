@@ -5,6 +5,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
+import taskmanager.dto.CreateTaskRequest;
 import taskmanager.dto.TaskResponse;
 import taskmanager.entity.Task;
 import taskmanager.entity.TaskStatus;
@@ -36,11 +37,6 @@ public class TaskController {
         );
     }
 
-    @PostMapping
-    public TaskResponse createTask(@RequestBody Task task) {
-        return mapToResponse(taskService.createTask(task));
-    }
-
     @GetMapping("/users/{userId}")
     public Page<TaskResponse> getTasksByUser(
             @PathVariable Long userId,
@@ -53,10 +49,18 @@ public class TaskController {
     }
 
     @PostMapping("/users/{userId}")
-    public TaskResponse createTaskForUser(@PathVariable Long userId, @RequestBody Task task) {
-        User user = userService.findByUserId(userId).orElseThrow();
+    public TaskResponse createTaskForUser(@PathVariable Long userId, @RequestBody CreateTaskRequest request) {
+        User user = userService.findByUserId(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with userId" + userId));
+
+        Task task = new Task();
+        task.setTitle(request.getTitle());
+        task.setDescription(request.getDescription());
+        task.setDueDate(request.getDueDate());
+        task.setStatus(TaskStatus.NEW);
         task.setUser(user);
-        return createTask(task);
+
+        return mapToResponse(taskService.createTask(task));
     }
 
     @PutMapping("/{id}")

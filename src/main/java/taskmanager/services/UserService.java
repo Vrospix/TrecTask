@@ -1,5 +1,6 @@
 package taskmanager.services;
 
+import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import taskmanager.dto.LoginRequest;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class UserService {
     private UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
