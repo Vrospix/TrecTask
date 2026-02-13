@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import taskmanager.dto.CreateTaskRequest;
 import taskmanager.dto.TaskResponse;
@@ -83,6 +84,9 @@ public class TaskController {
 
     @DeleteMapping("/{taskId}")
     public void deleteTask(@PathVariable Long taskId) {
+        Task task = taskService.getTask(taskId)
+                .orElseThrow(() -> new ResourceNotFoundException("Task not found with id " + taskId));
+
         taskService.deleteTask(taskId);
     }
 

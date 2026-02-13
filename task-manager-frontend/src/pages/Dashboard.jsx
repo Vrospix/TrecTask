@@ -65,6 +65,15 @@ function Dashboard() {
         }
     };
 
+    const handleDeleteTask = async (taskId) => {
+        try {
+            await API.delete(`/tasks/${taskId}`)
+            fetchTasks();
+        } catch (err) {
+            console.error(err)
+        }
+    };
+
      const handleLogout = () => {
          localStorage.removeItem("user");
          navigate("/");
@@ -91,6 +100,13 @@ function Dashboard() {
                        >
                          {task.status === "DONE" ? "✅" : "⬜"}
                        </span>
+
+                       <button
+                           onClick={() => handleDeleteTask(task.id)}
+                           style={{ marginLeft: "10px" }}
+                       >
+                           Delete
+                       </button>
                      </li>
 
                  ))}
