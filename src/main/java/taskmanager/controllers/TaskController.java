@@ -57,16 +57,16 @@ public class TaskController {
         task.setTitle(request.getTitle());
         task.setDescription(request.getDescription());
         task.setDueDate(request.getDueDate());
-        task.setStatus(TaskStatus.NEW);
+        task.setStatus(TaskStatus.IN_PROGRESS);
         task.setUser(user);
 
         return mapToResponse(taskService.createTask(task));
     }
 
-    @PutMapping("/{id}")
-    public TaskResponse updateTask(@PathVariable Long id, @RequestBody Task taskDetails) {
-        Task task = taskService.getTask(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Task not found with id " + id));
+    @PutMapping("/{taskId}")
+    public TaskResponse updateTask(@PathVariable Long taskId, @RequestBody Task taskDetails) {
+        Task task = taskService.getTask(taskId)
+                .orElseThrow(() -> new ResourceNotFoundException("Task not found with id " + taskId));
 
         if (task.getStatus() == TaskStatus.DONE) {
             throw new IllegalStateException("Cannot modify completed task");
@@ -81,9 +81,9 @@ public class TaskController {
         return mapToResponse(taskService.updateTask(task));
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteTask(@PathVariable Long id) {
-        taskService.deleteTask(id);
+    @DeleteMapping("/{taskId}")
+    public void deleteTask(@PathVariable Long taskId) {
+        taskService.deleteTask(taskId);
     }
 
     @GetMapping
@@ -92,5 +92,22 @@ public class TaskController {
                 .stream()
                 .map(t -> mapToResponse(t))
                 .toList();
+    }
+
+    @PatchMapping("/{taskId}/toggle")
+    public TaskResponse toggleTaskStatus(@PathVariable Long taskId) {
+
+        Task task = taskService.getTask(taskId)
+                .orElseThrow(() -> new ResourceNotFoundException("Task not found with id " + taskId));
+
+        if (task.getStatus() == TaskStatus.DONE) {
+            task.setStatus(TaskStatus.IN_PROGRESS);
+        } else {
+            task.setStatus(TaskStatus.DONE);
+        }
+
+        Task updatedTask = taskService.updateTask(task);
+
+        return mapToResponse(updatedTask);
     }
 }

@@ -32,11 +32,11 @@ public class Task {
         this.title = title;
         this.description = desc;
         this.dueDate = dueDate;
-        this.status = TaskStatus.NEW;
+        this.status = TaskStatus.IN_PROGRESS;
     }
 
     public Task() {
-        this.status = TaskStatus.NEW;
+        this.status = TaskStatus.IN_PROGRESS;
     }
 
     public void setTitle(String newTitle) {

@@ -56,6 +56,15 @@ function Dashboard() {
         }
     };
 
+    const handleToggleStatus = async (taskId) => {
+        try {
+            await API.patch(`/tasks/${taskId}/toggle`);
+            fetchTasks(); // refresh after toggle
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
      const handleLogout = () => {
          localStorage.removeItem("user");
          navigate("/");
@@ -74,8 +83,16 @@ function Dashboard() {
              <ul>
                  {tasks.map((task) => (
                      <li key={task.id}>
-                         {task.title} - {task.status === "DONE" ? "✅" : "❌"}
+                       {task.title}
+
+                       <span
+                         onClick={() => handleToggleStatus(task.id)}
+                         style={{ cursor: "pointer", marginLeft: "10px" }}
+                       >
+                         {task.status === "DONE" ? "✅" : "⬜"}
+                       </span>
                      </li>
+
                  ))}
              </ul>
 
