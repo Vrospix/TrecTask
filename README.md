@@ -62,9 +62,9 @@ The frontend communicates with the backend using REST APIs.
 
 1. Navigate to the backend directory
 2. Run:
-
+``` 
 mvn spring-boot:run
-
+```
 The backend will start on:
 http://localhost:8080
 
@@ -72,13 +72,13 @@ http://localhost:8080
 
 1. Navigate to the frontend directory
 2. Install dependencies:
-
+``` 
 npm install
-
+```
 3. Start the development server:
-
+```
 npm start
-
+```
 The frontend will start on:
 http://localhost:3000
 
